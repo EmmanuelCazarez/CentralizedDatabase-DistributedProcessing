@@ -8,8 +8,8 @@ public class Cheques extends DBConnection{
 	Statement st;
 	ResultSet rs;
 	
-	//Leyendo todos los datos de la tabla cheques
-	public void read() {	
+	//Imprimiendo los datos de la tabla cheques
+	public void imprimir() {	
 		try {
 			st = con.connection.createStatement();
 			rs = st.executeQuery("select * from "+TCHEQUES);
@@ -22,7 +22,35 @@ public class Cheques extends DBConnection{
 				);
 			}
 		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void depositar(String NOCUENTA, Float IMPORTE) {
+		
+		String query = "update "+TCHEQUES+" set "+TIMPORTE+"="+TIMPORTE+"+ ? where "+TNOCUENTA+"= ? ;";
+		
+		try (PreparedStatement pst = connection.prepareStatement(query)) {
 			
+			pst.setFloat(1, IMPORTE);
+			pst.setString(2, NOCUENTA);
+			pst.executeUpdate();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void retirar(String NOCUENTA, Float IMPORTE) {
+		
+		String query = "update "+TCHEQUES+" set "+TIMPORTE+"="+TIMPORTE+"- ? where "+TNOCUENTA+"= ? ;";
+		
+		try (PreparedStatement pst = connection.prepareStatement(query)) {
+			
+			pst.setFloat(1, IMPORTE);
+			pst.setString(2, NOCUENTA);
+			pst.executeUpdate();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

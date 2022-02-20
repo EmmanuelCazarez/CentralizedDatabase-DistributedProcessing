@@ -11,4 +11,5 @@ public class DataBase {
 	public static final String TNOCUENTA 	= "nocuenta";
 	public static final String TIMPORTE 	= "importe";
 	public static final String TESTTUS  	= "esttus";
+	
 }
