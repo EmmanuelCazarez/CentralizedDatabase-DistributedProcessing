@@ -34,6 +34,26 @@ public class Cheques extends DBConnection{
 			e.printStackTrace();
 		} 
 	}
+	public void consultarCuenta(String NOCUENTA) {
+		try {
+			connection.setAutoCommit(false);
+			st = connection.createStatement();
+			rs = st.executeQuery("select * from "+TCHEQUES+" where "+TNOCUENTA+" = '"+NOCUENTA+"' for share;");
+			rs.next();
+			connection.commit();
+			System.out.println("Numero de cuenta: "+rs.getString(TNOCUENTA));
+			System.out.println("Saldo: "+Float.valueOf(rs.getString(TIMPORTE)));
+			System.out.println("Estatus: "+rs.getString(TESTTUS).charAt(0));
+		} catch(SQLException e) {
+			try {
+				connection.rollback();
+				System.out.println("La consulta ha fallado.");
+			} catch(SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
 	public void consultarSaldo(String NOCUENTA) {
 		try {
 			connection.setAutoCommit(false);
@@ -62,8 +82,8 @@ public class Cheques extends DBConnection{
 			pst.setFloat(1, DEPOSITO);
 			pst.setString(2, NOCUENTA);
 			pst.executeUpdate();
+			connection.commit();
 			System.out.println("El depósito fue exitoso.");
-			System.out.println("Saldo: "+Float.valueOf(rs.getString(TIMPORTE)));
 			
 		} catch(SQLException e) {	
 			try {
